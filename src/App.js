@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import Textbox from './components/textbox.jsx';
 import './App.css';
 
+
+const buttonCtx  = React.createContext('address')
 class App extends Component {
+  constructor(props){
+    super();
+    this.state={ boxProps:{displayStyle:"display-box", boxName:"",boxStyle:"text-box",endPoint:"https://jsonplaceholder.typicode.com/posts",}}
+  }
   render() {
+    const boxProps = {...this.state.boxProps}
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <Textbox {...boxProps}/>
       </div>
     );
   }
