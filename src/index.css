@@ -12,10 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.text-box{width:200px;margin:20px}
+.text-box{width:200px;margin:20px;margin-bottom:5px}
 .display-box{width:200px;
               margin:auto;
-              margin-top:30px;
+              margin-top:opx;
               box-sizing: border-box;
               padding:10px;background:aliceblue;
               box-shadow:1px 1px 3px lightgray}

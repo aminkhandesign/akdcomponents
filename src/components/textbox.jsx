@@ -93,8 +93,8 @@ class Textbox extends Component{
                     placeholder={ph}/>
             <button onClick={this.changeField} type="submit">+</button>
             <br/>
-            <input   type="submit" value="submit" onClick={this.handleSubmit} />
             <div className={this.props.displayStyle}>{this.state.display}</div>
+            <input   type="submit" value="submit" onClick={this.handleSubmit} />
             </div>
         )
     }
