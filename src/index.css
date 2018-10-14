@@ -13,9 +13,29 @@ code {
     monospace;
 }
 .text-box{width:200px;margin:20px;margin-bottom:5px}
-.display-box{width:200px;
+
+@keyframes box{
+  0%  {height:0px}
+  100% {height:50px}
+}
+.display-box{ 
+
+              width:200px;
               margin:auto;
-              margin-top:opx;
+              margin-top:3px;
               box-sizing: border-box;
               padding:10px;background:aliceblue;
               box-shadow:1px 1px 3px lightgray}
+
+.display-box>span{
+  font-weight:bolder;
+  color:darkblue
+}
+
+
+.form-container { 
+              display:block;
+              text-align: left;
+                height:auto;
+               transition:.5s all
+}

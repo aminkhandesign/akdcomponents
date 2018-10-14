@@ -5,9 +5,9 @@ import {extendForm} from '../helper_functions/';
 class Textbox extends Component{
     constructor(props){
         super(props);
-        this.state={address:[
-                            {type: "appt",ph:"Please enter house/appt number", value:"",active:false},
-                            {type:"street",ph:"Please enter street",value:"",active:true},
+        this.state={fields:[
+                            {type: "appt",ph:"Please enter house/appt number", value:"",active:true},
+                            {type:"street",ph:"Please enter street",value:"",active:false},
                             {type:"city",ph:"Enter your city",value:"",active:false},
                             {type:"zip",ph:"Enter ZIP",value:"",active:false}
                             ], 
@@ -24,9 +24,14 @@ class Textbox extends Component{
             this.setState({contents:text,error:"",line:0})
         
     }
+    handleEnter=(ev)=>{
+            if(ev.which===13){
+                this.changeField(ev);
+            }
+    }
     changeField = (ev)=>{
         ev.preventDefault();
-      let myarr = this.state.address;
+    let myarr = this.state.address;
 
     let idx = this.state.address.find(el=>el.active);
 
@@ -34,24 +39,23 @@ class Textbox extends Component{
     idx = myarr.indexOf(idx);
     switch (myarr[idx].type){
         case "appt":
-         this.setState(prevState=>(this.state.payload.num = this.state.contents))  
+         if(this.state.contents!=="")this.setState(prevState=>(this.state.payload.num = this.state.contents))  
          break;
          case "street":
-         this.setState(prevState=>(this.state.payload.street = this.state.contents))  
+         if(this.state.contents!=="")this.setState(prevState=>(this.state.payload.street = this.state.contents))  
          break;
          case "appt":
-         this.setState(prevState=>(this.state.payload.num = this.state.contents))  
+         if(this.state.contents!=="")this.setState(prevState=>(this.state.payload.num = this.state.contents))  
          break;
          case "city":
-         this.setState(prevState=>(this.state.payload.city = this.state.contents))  
+         if(this.state.contents!=="")this.setState(prevState=>(this.state.payload.city = this.state.contents))  
          break;
          case "zip":
-         this.setState(prevState=>(this.state.payload.zip = this.state.contents))  
+         if(this.state.contents!=="")this.setState(prevState=>(this.state.payload.zip = this.state.contents))  
          break;
     }
     myarr[idx].active=!myarr[idx].active;
     myarr[idx!==(myarr.length-1)?idx+1:0].active=true
-    console.log(this.state.address)
 
     this.setState({contents:""})
 
@@ -78,6 +82,16 @@ class Textbox extends Component{
 
         
     }
+
+    generateDisplay = (payload)=>{
+        let formArray=[]
+        for(let i in payload){
+            if(payload[i]!=="")
+            formArray.push(<div className="display-box"><span className="bolder">{i}</span> : {payload[i]} </div>)
+        }
+
+         return formArray
+    }
     render() {
         let ph =  this.state.address.find(el=>el.active).ph
         return(
@@ -89,11 +103,14 @@ class Textbox extends Component{
                     onChange={this.handleChange}
                      className={this.props.boxStyle} 
                     type="text" 
+                    onKeyPress={this.handleEnter}
                     value={this.state.contents} 
                     placeholder={ph}/>
             <button onClick={this.changeField} type="submit">+</button>
             <br/>
-            <div className={this.props.displayStyle}>{this.state.display}</div>
+            <div className={this.props.displayStyle}>
+            {this.generateDisplay(this.state.payload)}
+            </div>
             <input   type="submit" value="submit" onClick={this.handleSubmit} />
             </div>
         )
