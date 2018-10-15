@@ -1,20 +1,43 @@
 import React, { Component } from 'react';
+import InputField from '../atoms/inputField.jsx';
+import Regions from '../data_assets/data.js'
+ 
 
 
-
-
+let country = ['UK','US']
 class AddressBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { list: Regions.us , theme:"US"};
     }
-    render() { 
-        return (  
-                <div style={{width:this.props.width}}>
 
-                    Hello
-                 
-                </div>
+
+checkCountry=(ev)=>{
+    if(ev.target.value==="UK")
+    this.setState({list:Regions.uk,theme:"UK"});
+    else 
+    this.setState({list:Regions.us,theme:"US"});
+    console.log("changed selection")
+}
+
+    boxStyles = {width:"400px",height:"400px",backgroundColor:"pink",boxShadow:"2px 2px 5px gray",position:"absolute",top:"10vh",left:"40vw"}
+    render() { 
+
+        return (  
+            <div className="modal">
+            <h1>Mailing</h1>
+               <InputField inputType="input" label="Company" placeholder="Company Name" />
+               <InputField inputType="input" label="Address" placeholder="Address Line 1" />
+               <InputField inputType="input" label="" placeholder="Address Line 2" />
+               <InputField inputType="input" label="City" placeholder="city of residence" />
+               <InputField inputType="select" selection={this.state.list} label={this.state.theme==="US"?"State/Prov":"County"}placeholer="city of residence" />
+               <InputField inputType="input" label={this.state.theme==="US"?"zipcode":"postcode"} placeholder={this.state.theme==="US"?"zipcode":"postcode"} />
+               <InputField handler={this.checkCountry} inputType="select"  selection={["US","UK"]} label="Country" placeholer="city of residence" />
+               <div >
+                   <button>Cancel</button>
+                   <button>Save</button>
+               </div>
+            </div> 
 
 
 
