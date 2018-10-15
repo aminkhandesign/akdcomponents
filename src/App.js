@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import Textbox from './components/textbox.jsx';
+import AddressBox from './components/organisms/addressBox.jsx';
 import './App.css';
 
 
@@ -15,6 +16,7 @@ class App extends Component {
     return (
       <div className="App">
       <Textbox {...boxProps}/>
+      <AddressBox width="500"/>
       </div>
     );
   }
