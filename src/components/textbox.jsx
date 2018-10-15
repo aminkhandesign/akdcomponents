@@ -97,6 +97,7 @@ class Textbox extends Component{
     render() {
         let ph =  this.state.address.find(el=>el.active).ph
         return(
+            <div className="address-box"> {/*prev class address-box */}
             <div className="address-box">   
             <label className="label" htmlFor={this.props.boxName}>{this.props.boxName}</label>
             <div className="inputContainer">
@@ -116,6 +117,7 @@ class Textbox extends Component{
             {this.generateDisplay(this.state.payload)}
             </div>
             <input   className="bottom" type="submit" value="submit" onClick={this.handleSubmit} />
+            </div>
             </div>
         )
     }

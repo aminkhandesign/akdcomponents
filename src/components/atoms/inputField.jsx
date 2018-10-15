@@ -7,18 +7,20 @@ let styles = props.styling || {border:"1px solid gray",borderRadius:"5px",margin
 
 if(props.inputType==="input"){
     return (
-            <div>
-            <label>{props.label}</label>
-            <input style={styles} placeholder={props.placeholder} />
+            <div className="form group">
+            <label className="col-md-3 control-label">{props.label}</label>
+            <div className="col-md-8">
+            <input className="form-control" placeholder={props.placeholder} />
+            </div>
             </div>
     )
 }
 else if(props.inputType==="select") {
 
     return (
-        <div>
-            <label>{props.label}</label>
-            <select onChange={props.handler}  style={styles} name={props.label} >
+        <div className="form-group">
+            <label className="col-md-3 control-label">{props.label}</label>
+            <select className="form-control form-state-list" onChange={props.handler}   name={props.label} >
                 {props.selection.map(el=><option key={el} value={el}>{el}</option>)}
             </select>
 

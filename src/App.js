@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import Textbox from './components/textbox.jsx';
 import AddressBox from './components/organisms/addressBox.jsx';
-import './App.css';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 //const buttonCtx  = React.createContext('address')
@@ -15,7 +16,7 @@ class App extends Component {
     const boxProps = {...this.state.boxProps}
     return (
       <div className="App">
-      <Textbox {...boxProps}/>
+  {/* <Textbox {...boxProps}/> */}
       <AddressBox width="500"/>
       </div>
     );
