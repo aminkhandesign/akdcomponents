@@ -5,7 +5,7 @@ import AddressBox from './components/organisms/addressBox.jsx';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+let endpoint = ""
 //const buttonCtx  = React.createContext('address')
 class App extends Component {
   constructor(props){
@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <div className="App">
   {/* <Textbox {...boxProps}/> */}
-      <AddressBox width="500"/>
+      <AddressBox endpoint={endpoint} />
       </div>
     );
   }

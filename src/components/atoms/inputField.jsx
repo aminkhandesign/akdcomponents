@@ -4,13 +4,16 @@ import React from 'react';
 function InputField(props){
 
 let styles = props.styling || {border:"1px solid gray",borderRadius:"5px",margin:"5px"}
+let handler = props.changeHandler
 
 if(props.inputType==="input"){
+
+
     return (
             <div className="form group">
             <label className="col-md-3 control-label">{props.label}</label>
             <div className="col-md-8">
-            <input className="form-control" placeholder={props.placeholder} />
+            <input  name={props.name} onChange={props.changeHandler} value={props.text} className="form-control" placeholder={props.placeholder} />
             </div>
             </div>
     )
