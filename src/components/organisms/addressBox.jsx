@@ -22,7 +22,7 @@ const postObj = {
 class AddressBox extends Component {
     constructor(props) {
         super(props);
-        this.state = { list: Regions.us , theme:"US", payload:{company:"",address:{line1:"",line2:"",city:"",state:"",zip:"",country:""}}};
+        this.state = { list: Regions.us , theme:"US", payload:{company:"",address:{line1:"",line2:"",city:"",state:"",zip:"",country:"US"}}};
     }
 
 
@@ -61,21 +61,29 @@ handleCancel=(ev)=>{
 
 handleSave=(ev)=>{
     console.log(this.state.payload);
-    function validate(obj){
+    let unfilled = []
+    let validate=(obj)=>{
         for(let key in obj){
-            console.log(key)
-            if(typeof key ==="object"){
-                validate(obj)
+            console.log("THIS IS THE KEY::",key)
+            if(obj[key].constructor===Object){
+                console.log(key, "IS AN OBJECT!!")
+                validate(obj[key])
+                
             }
-            if (key ==="") {
-                alert("Please fill all fields")
-                return 
+            if (obj[key] ==="") {
+                unfilled.push(key)
+                validate(obj[key])
             }
          
+        }
+        if(unfilled.length){
+            alert(`please fill ${unfilled.join(",")}`);
+            return null
         }
         return {...obj}
 
     }
+    validate(this.state.payload)
     let res=JSON.stringify(validate(this.state.payload));
       fetch(this.props.endpoint, {...postObj,body:res}).then(res=>console.log("data sent")).catch(err=>console.log("error sending data"));
       console.log("JSON::" ,res);
