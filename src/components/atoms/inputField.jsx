@@ -10,9 +10,9 @@ if(props.inputType==="input"){
 
 
     return (
-            <div className="form group">
+            <div className="form-group row">
             <label className="col-md-3 control-label">{props.label}</label>
-            <div className="col-md-8">
+            <div className="col-md-9">
             <input  name={props.name} onChange={props.changeHandler} value={props.text} className="form-control" placeholder={props.placeholder} />
             </div>
             </div>
@@ -21,11 +21,13 @@ if(props.inputType==="input"){
 else if(props.inputType==="select") {
 
     return (
-        <div className="form-group">
+        <div className="form-group row">
             <label className="col-md-3 control-label">{props.label}</label>
-            <select className="form-control form-state-list" onChange={props.changeHandler}   name={props.name} >
+            <div className="col-md-9">
+            <select className=" form-control" onChange={props.changeHandler}   name={props.name} >
                 {props.selection.map(el=><option key={el} value={el}>{el}</option>)}
             </select>
+            </div>
 
         </div>
     )

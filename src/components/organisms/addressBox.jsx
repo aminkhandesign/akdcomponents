@@ -3,11 +3,11 @@ import InputField from '../atoms/inputField.jsx';
 import Regions from '../data_assets/data.js'
 import Button from '../atoms/buttons.jsx'
 import update from 'immutability-helper';
-import {form} from 'bootstrap';
+
  
 
 
-let country = ['UK','US'];
+
 const postObj = {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, cors, *same-origin
@@ -28,20 +28,6 @@ class AddressBox extends Component {
 
 
 
-checkCountry=(ev)=>{
-    if(ev.target.value==="UK"){
-    this.setState({list:Regions.uk,theme:"UK"});
-    }
-    else {
-    this.setState({list:Regions.us,theme:"US"});
-    console.log("changed selection")
-    }
-    let address = {...this.state.payload.address};
-    address.country=ev.target.value
-    this.setState(address)
-
-}
-
 //event handlers
 inputHandler=(ev)=>{
     ev.persist()
@@ -50,7 +36,7 @@ inputHandler=(ev)=>{
         console.log("detected state change")
         let myState = ev.target.value
         console.log(myState)
-        this.setState(prevState=>(update(prevState,{payload: {address:{state:{$set:myState} } } } )))
+        this.setState(prevState=>(update(prevState,{payload: {company: {$set:prevState.payload.company}, address:{state:{$set:myState} } } } )))
         return 
     }
     if(ev.target.name==="Country"){
@@ -73,17 +59,18 @@ this.setState(prevState=>({payload:{company:ev.target.value,address:prevState.pa
     }
 
     else{
-        this.setState(prevState=>({...prevState,payload:{address:{...prevState.payload.address, [ev.target.name]:ev.target.value}}}))
+        this.setState(prevState=>({...prevState,payload:{company:prevState.payload.company, address:{...prevState.payload.address, [ev.target.name]:ev.target.value}}}))
     }
 
 }
 handleCancel=(ev)=>{
-    this.setState(prevState=>({payload: {company:"",address:{line1:"",line2:"",city:"",state:"",zip:"",country:""}  }   } ))
+    this.setState({payload: {company:"",address:{line1:"",line2:"",city:"",state:"",zip:"",country:""}}} );
     console.log("Cancelled state:" , this.state.payload.address)
 }
 
 handleSave=(ev)=>{
-    console.log(this.state.payload);
+    console.log("INITIAL PAYLOAD",this.state.payload);
+    console.log("INITIAL state",this.state);
     let unfilled = []
     let validate=(obj)=>{
         for(let key in obj){
@@ -108,8 +95,10 @@ handleSave=(ev)=>{
         alert(`please fill ${unfilled.join(",")}`);
         return null
     }
-
-    let res=JSON.stringify(validate(this.state.payload));
+    console.log(this.state.payload)
+  
+     let  res=validate(this.state.payload)
+     res=JSON.stringify(validate(this.state.payload));
       fetch(this.props.endpoint, {...postObj,body:res}).then(res=>console.log("data sent")).catch(err=>console.log("error sending data"));
       console.log("JSON::" ,res);
         this.handleCancel()
@@ -122,7 +111,7 @@ handleSave=(ev)=>{
         return (  
             <div className="modal-dialog vertical-align-center">
             <div className="modal-content" >
-            <div className="modal-header"><h4>Mailing</h4><button type="button" className="close pull-right" data-dismiss="modal">X</button></div>
+            <div className="modal-header"><h4>Mailing</h4><button  type="button" className="close pull-right" data-dismiss="modal">X</button></div>
             <div className="col-sm-12">
                <InputField  changeHandler={this.inputHandler} text={this.state.payload.company} inputType="input" name="company" label="Company" placeholder="Company Name" />
                <InputField changeHandler={this.inputHandler} text={this.state.payload.address.line1} inputType="input" name="line1" label="Address"  placeholder="Address Line 1" />
