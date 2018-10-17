@@ -23,7 +23,7 @@ else if(props.inputType==="select") {
     return (
         <div className="form-group">
             <label className="col-md-3 control-label">{props.label}</label>
-            <select className="form-control form-state-list" onChange={props.handler}   name={props.label} >
+            <select className="form-control form-state-list" onChange={props.changeHandler}   name={props.name} >
                 {props.selection.map(el=><option key={el} value={el}>{el}</option>)}
             </select>
 

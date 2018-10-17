@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import InputField from '../atoms/inputField.jsx';
 import Regions from '../data_assets/data.js'
 import Button from '../atoms/buttons.jsx'
+import update from 'immutability-helper';
 import {form} from 'bootstrap';
  
 
@@ -44,7 +45,29 @@ checkCountry=(ev)=>{
 //event handlers
 inputHandler=(ev)=>{
     ev.persist()
-    console.log("INPUT FIELD:", ev.target.name  || "No Name seen")
+    console.log("INPUT FIELD:", ev.target.name  ||"No Name seen")
+    if(ev.target.name==="state"){
+        console.log("detected state change")
+        let myState = ev.target.value
+        console.log(myState)
+        this.setState(prevState=>(update(prevState,{payload: {address:{state:{$set:myState} } } } )))
+        return 
+    }
+    if(ev.target.name==="Country"){
+        let myCountry = ev.target.value
+        if(myCountry==="UK"){
+
+            this.setState({list:Regions.uk,theme:"UK"});
+            console.log("changed selection")
+            }
+            else {
+            this.setState({list:Regions.us,theme:"US"});
+            console.log("changed selection")
+            }
+
+            this.setState(prevState=>(update(prevState,{payload: {address:{country:{$set:ev.target.value} } } } )))
+        return 
+    }
     if (ev.target.name==="company"){
 this.setState(prevState=>({payload:{company:ev.target.value,address:prevState.payload.address}}))
     }
@@ -72,18 +95,20 @@ handleSave=(ev)=>{
             }
             if (obj[key] ==="") {
                 unfilled.push(key)
-                validate(obj[key])
+                
             }
          
         }
-        if(unfilled.length){
-            alert(`please fill ${unfilled.join(",")}`);
-            return null
-        }
+      
         return {...obj}
 
     }
     validate(this.state.payload)
+    if(unfilled.length){
+        alert(`please fill ${unfilled.join(",")}`);
+        return null
+    }
+
     let res=JSON.stringify(validate(this.state.payload));
       fetch(this.props.endpoint, {...postObj,body:res}).then(res=>console.log("data sent")).catch(err=>console.log("error sending data"));
       console.log("JSON::" ,res);
@@ -103,9 +128,9 @@ handleSave=(ev)=>{
                <InputField changeHandler={this.inputHandler} text={this.state.payload.address.line1} inputType="input" name="line1" label="Address"  placeholder="Address Line 1" />
                <InputField changeHandler={this.inputHandler} text={this.state.payload.address.line2} inputType="input"  name="line2" label=""placeholder="Address Line 2" />
                <InputField changeHandler={this.inputHandler} text={this.state.payload.address.city} inputType="input" name="city" label="City"  placeholder="city of residence" />
-               <InputField  inputType="select" selection={this.state.list} name="state" label={this.state.theme==="US"?"State/Prov":"County"}placeholer="city of residence" />
+               <InputField  changeHandler={this.inputHandler} inputType="select" selection={this.state.list} name="state" label={this.state.theme==="US"?"State/Prov":"County"}placeholer="city of residence" />
                <InputField changeHandler={this.inputHandler} text={this.state.payload.address.zip} inputType="input" name="zip" label={this.state.theme==="US"?"zipcode":"postcode"} placeholder={this.state.theme==="US"?"zipcode":"postcode"} />
-               <InputField  handler={this.checkCountry} name="country" inputType="select"  selection={["US","UK"]} label="Country" placeholer="city of residence" />
+               <InputField  changeHandler={this.inputHandler} name="Country" inputType="select"  selection={["US","UK"]} label="Country" placeholer="city of residence" />
                </div>
                <div className="modal-footer">
                    <Button clickHandler={this.handleCancel} buttName="Cancel" />
